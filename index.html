@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="runGame()">
+<canvas id="screenCanvas" width="1200" height="500" style=" border:2px solid#c3dcd5"></canvas>
+
+<script src="script.js"></script>
+<script>
+    let bar=new Bar();
+    let ball= new Ball();
+    function moveBar(event) {
+        switch (event.keyCode) {
+            case 37: {
+                bar.moveLeft();
+                break;
+            }
+            case 39: {
+                bar.moveRight();
+                break;
+            }
+        }
+    }
+    function runGame(){
+        window.addEventListener('keydown',moveBar);
+    }
+
+    function draw(){
+        CTX.clearRect(0,0,MAPWIDTH,MAPHEIGHT);
+        ball.drawBall(CTX,bar);
+        bar.drawBar(CTX);
+    }
+    function updateAfterMove() {
+        ball.moveBall();
+        ball.checkCollision(bar);
+        draw();
+    }
+</script>
+</body>
+</html>
