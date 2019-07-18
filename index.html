@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body onload="runGame()">
+<body>
 <canvas id="screenCanvas" width="1200" height="500" style=" border:2px solid#c3dcd5"></canvas>
 
 <script src="script.js"></script>
@@ -33,10 +33,18 @@
         bar.drawBar(CTX);
     }
     function updateAfterMove() {
-        ball.moveBall();
+
+        // if (ball.checkCollision(bar)) return;
         ball.checkCollision(bar);
+        ball.moveBall();
         draw();
     }
+    window.onload = function () {
+        let interval = 10;
+        runGame();
+        ball = new Ball();
+        setInterval("updateAfterMove()",interval);
+    };
 </script>
 </body>
 </html>

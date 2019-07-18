@@ -1,7 +1,7 @@
-const BALL_RADIUS=20;
+const BALL_RADIUS=15;
 const BALL_DEFAULT_X=50;
 const BALL_DEFAULT_Y=70;
-const BALL_SPEED =2;
+const BALL_SPEED =1;
 
 const MAPWIDTH = document.getElementById("screenCanvas").offsetWidth;
 const MAPHEIGHT = document.getElementById("screenCanvas").offsetHeight;
@@ -10,8 +10,8 @@ const CTX=document.getElementById("screenCanvas").getContext("2d");
 const BAR_DEFAULT_X= 500;
 const BAR_DEFAULT_Y=400;
 const BAR_WIDTH =150;
-const BAR_HEIGHT = 20;
-const BAR_SPEED=20;
+const BAR_HEIGHT = 50;
+const BAR_SPEED=100;
 
 let Ball =function () {
     this.radius=BALL_RADIUS;
@@ -25,7 +25,7 @@ let Ball =function () {
         ctx.fillStyle="rgb(242,48,108)";
         ctx.closePath();
         ctx.fill();
-        this.checkCollision(bar);
+        // this.checkCollision(bar);
     };
     this.moveBall=function () {
         this.cx+=this.speedX;
@@ -36,7 +36,13 @@ let Ball =function () {
         this.bottom=this.cy+this.radius;
     };
     this.checkCollision=function (bar) {
-        let isTouchBar=(this.bottom>=bar.getY()&&this.right>=bar.getX()&&this.left<=bar.getX()+bar.width && this.top>=bar.getY()+bar.height);
+        console.log(this.bottom, bar.getY(), this.right, bar.getX(), this.left, );
+
+        // let isTouchTopBar = (this.bottom>= bar.getY() && this.right>=bar.getX());
+        // let isTouchLeft = (this.right>=bar.getX() && this.bottom >= bar.getY() && this.top <= bar.bottom);
+
+        let isTouchBar=((this.bottom>=bar.getY() && this.top < bar.getY()+bar.height)&&(this.right>bar.getX()&&this.left<(bar.getX()+bar.width)));
+        // let isTouchBar = isTouchTopBar ;
         let crossLeftBoard=this.left <=0;
         let crossRightBoard=this.right >=MAPWIDTH;
         let crossTopBoard=this.top <=0;
@@ -45,10 +51,11 @@ let Ball =function () {
             this.speedX= -this.speedX;
         }
         if(crossTopBoard || isTouchBar){
-            this.speedY=-this.speedY
+            this.speedY=-this.speedY;
+            return true;
         }
         if(crossBottom){
-            alert("you are lose!");
+            alert("you lose!");
                 this.cx=BALL_DEFAULT_X;
                 this.cy=BALL_DEFAULT_Y;
         }
